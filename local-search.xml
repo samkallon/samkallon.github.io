@@ -4,6 +4,48 @@
   
   
   <entry>
+    <title>css添加动态视频背景</title>
+    <link href="/2024/03/04/css%E6%B7%BB%E5%8A%A0%E5%8A%A8%E6%80%81%E8%A7%86%E9%A2%91%E8%83%8C%E6%99%AF/"/>
+    <url>/2024/03/04/css%E6%B7%BB%E5%8A%A0%E5%8A%A8%E6%80%81%E8%A7%86%E9%A2%91%E8%83%8C%E6%99%AF/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>通常我们的系统顶部会有UI切图的背景，但是有的时候我们需要动态的背景，<br>这个时候我们可以使用css来添加动态视频背景,但是如果直接添加MP4,即使<br>是透明背景的mp4也会有黑边, 如下</p></blockquote><img src="/2024/03/04/css%E6%B7%BB%E5%8A%A0%E5%8A%A8%E6%80%81%E8%A7%86%E9%A2%91%E8%83%8C%E6%99%AF/img.png" class="" width="1212"><blockquote><p>如果使用css样式</p></blockquote><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-tag">video</span>&#123;<br>    <span class="hljs-attribute">mix-blend-mode</span>: screen;<br>&#125;<br></code></pre></td></tr></table></figure><blockquote><p>背景又会过于透明</p></blockquote><img src="/2024/03/04/css%E6%B7%BB%E5%8A%A0%E5%8A%A8%E6%80%81%E8%A7%86%E9%A2%91%E8%83%8C%E6%99%AF/img_1.png" class="" width="1212"><blockquote><p>可以考虑在底部叠加一个背景实现融合,实现了效果</p></blockquote><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;father&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;position: relative&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;background: url(&#x27;xxx&#x27;);position: absolute;z-index: 1&quot;</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">video</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;xxx&quot;</span> <span class="hljs-attr">autoplay</span> <span class="hljs-attr">muted</span> <span class="hljs-attr">loop</span> </span><br><span class="hljs-tag">           <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;position: absolute;z-index: 2;mix-blend-mode: screen&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">video</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br></code></pre></td></tr></table></figure><img src="/2024/03/04/css%E6%B7%BB%E5%8A%A0%E5%8A%A8%E6%80%81%E8%A7%86%E9%A2%91%E8%83%8C%E6%99%AF/img_2.png" class="" width="1212">]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>css</tag>
+      
+      <tag>html</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>vue3动态引入文件夹下的所有文件</title>
+    <link href="/2024/02/26/vue3%E5%8A%A8%E6%80%81%E5%BC%95%E5%85%A5%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%8B%E7%9A%84%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6/"/>
+    <url>/2024/02/26/vue3%E5%8A%A8%E6%80%81%E5%BC%95%E5%85%A5%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%8B%E7%9A%84%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>有时我们会将相似的数据都放在同一个文件夹下,引用时如果一个一个引用就会有很多的重复代码,这时我们可以使用动态引入来解决这个问题</p></blockquote><blockquote><p>比如 我们想引用public文件夹下qiYeJianKongPoint文件夹下的所有json文件,可以这样写</p></blockquote><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> allQiYePoint = <span class="hljs-keyword">import</span>.<span class="hljs-property">meta</span>.<span class="hljs-title function_">glob</span>(<span class="hljs-string">&#x27;/public/qiYeJianKongPoint/*.json&#x27;</span>, &#123; <span class="hljs-attr">eager</span>: <span class="hljs-literal">true</span>&#125;)<br></code></pre></td></tr></table></figure><blockquote><p>打印出来是一个对象,key是路径,value中的default是数据</p></blockquote><img src="/2024/02/26/vue3%E5%8A%A8%E6%80%81%E5%BC%95%E5%85%A5%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%8B%E7%9A%84%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6/img.png" class="">]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>vue</tag>
+      
+      <tag>动态</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>使用Gsap实现Cesium的3dtile抽拉动画效果</title>
     <link href="/2024/01/12/%E4%BD%BF%E7%94%A8Gsap%E5%AE%9E%E7%8E%B0Cesium%E7%9A%843dtile%E6%8A%BD%E6%8B%89%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/"/>
     <url>/2024/01/12/%E4%BD%BF%E7%94%A8Gsap%E5%AE%9E%E7%8E%B0Cesium%E7%9A%843dtile%E6%8A%BD%E6%8B%89%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C/</url>
