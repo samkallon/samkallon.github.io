@@ -16,25 +16,27 @@
   <meta name="author" content="samkallon">
   <meta name="keywords" content="">
   
-    <meta name="description" content="最近的项目打包越来越慢,甚至达到了5分多钟,但是项目并不是很大,感到很奇怪于是便开始搜索打包相关的问题  1.分析打包产物 使用 rollup-plugin-visualizer 插件分析打包产物  1npm i rollup-plugin-visualizer -D  在vite.config.ts中  12345import &amp;#123; visualizer &amp;#125; from &amp;#x">
+    <meta name="description" content="背景最近客户反应有个图层加载比较慢,大概要等待5秒左右,这个图层就是每个企业的名字,加载的实体数量大概在1500左右. 于是着手优化  验证一开始是使用entity中的label来加载的,label的文本是企业的名称,同时注意到控制台有800多个警告   然后我就到cesium的sandcastle里验证一下,我的label的text属性是Math.random(), 发现一点也不卡, 经过搜索发">
 <meta property="og:type" content="article">
-<meta property="og:title" content="记一次vite打包优化">
-<meta property="og:url" content="http://samkallon.top/blog/2024/03/07/%E8%AE%B0%E4%B8%80%E6%AC%A1vite%E6%89%93%E5%8C%85%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:title" content="使用IndexDB优化大量Billboard的加载">
+<meta property="og:url" content="http://samkallon.top/blog/2024/03/11/%E4%BD%BF%E7%94%A8IndexDB%E4%BC%98%E5%8C%96%E5%A4%A7%E9%87%8FBillboard%E7%9A%84%E5%8A%A0%E8%BD%BD/index.html">
 <meta property="og:site_name" content="samkallon的博客">
-<meta property="og:description" content="最近的项目打包越来越慢,甚至达到了5分多钟,但是项目并不是很大,感到很奇怪于是便开始搜索打包相关的问题  1.分析打包产物 使用 rollup-plugin-visualizer 插件分析打包产物  1npm i rollup-plugin-visualizer -D  在vite.config.ts中  12345import &amp;#123; visualizer &amp;#125; from &amp;#x">
+<meta property="og:description" content="背景最近客户反应有个图层加载比较慢,大概要等待5秒左右,这个图层就是每个企业的名字,加载的实体数量大概在1500左右. 于是着手优化  验证一开始是使用entity中的label来加载的,label的文本是企业的名称,同时注意到控制台有800多个警告   然后我就到cesium的sandcastle里验证一下,我的label的text属性是Math.random(), 发现一点也不卡, 经过搜索发">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://samkallon.top/2024/03/07/%E8%AE%B0%E4%B8%80%E6%AC%A1vite%E6%89%93%E5%8C%85%E4%BC%98%E5%8C%96/img_1.png">
-<meta property="article:published_time" content="2024-03-07T06:05:43.000Z">
-<meta property="article:modified_time" content="2024-03-07T06:41:02.149Z">
+<meta property="og:image" content="http://samkallon.top/2024/03/11/%E4%BD%BF%E7%94%A8IndexDB%E4%BC%98%E5%8C%96%E5%A4%A7%E9%87%8FBillboard%E7%9A%84%E5%8A%A0%E8%BD%BD/img.png">
+<meta property="og:image" content="http://samkallon.top/2024/03/11/%E4%BD%BF%E7%94%A8IndexDB%E4%BC%98%E5%8C%96%E5%A4%A7%E9%87%8FBillboard%E7%9A%84%E5%8A%A0%E8%BD%BD/img_1.png">
+<meta property="article:published_time" content="2024-03-11T09:17:05.000Z">
+<meta property="article:modified_time" content="2024-03-11T09:43:16.408Z">
 <meta property="article:author" content="samkallon">
-<meta property="article:tag" content="vite">
-<meta property="article:tag" content="打包优化">
+<meta property="article:tag" content="Cesium">
+<meta property="article:tag" content="IndexDB">
+<meta property="article:tag" content="性能优化">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://samkallon.top/2024/03/07/%E8%AE%B0%E4%B8%80%E6%AC%A1vite%E6%89%93%E5%8C%85%E4%BC%98%E5%8C%96/img_1.png">
+<meta name="twitter:image" content="http://samkallon.top/2024/03/11/%E4%BD%BF%E7%94%A8IndexDB%E4%BC%98%E5%8C%96%E5%A4%A7%E9%87%8FBillboard%E7%9A%84%E5%8A%A0%E8%BD%BD/img.png">
   
   
   
-  <title>记一次vite打包优化 - samkallon的博客</title>
+  <title>使用IndexDB优化大量Billboard的加载 - samkallon的博客</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -233,7 +235,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="记一次vite打包优化"></span>
+            <span id="subtitle" data-typed-text="使用IndexDB优化大量Billboard的加载"></span>
           
         </div>
 
@@ -244,8 +246,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-07 14:05" pubdate>
-          2024年3月7日 下午
+        <time datetime="2024-03-11 17:17" pubdate>
+          2024年3月11日 下午
         </time>
       </span>
     
@@ -256,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          781 字
+          2.9k 字
         
       </span>
     
@@ -267,7 +269,7 @@
         
         
         
-          7 分钟
+          24 分钟
         
       </span>
     
@@ -313,51 +315,32 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">记一次vite打包优化</h1>
+            <h1 style="display: none">使用IndexDB优化大量Billboard的加载</h1>
             
             
               <div class="markdown-body">
                 
-                <blockquote>
-<p>最近的项目打包越来越慢,甚至达到了5分多钟,但是项目并不是很大,感到很奇怪<br>于是便开始搜索打包相关的问题</p>
-</blockquote>
-<h2 id="1-分析打包产物"><a href="#1-分析打包产物" class="headerlink" title="1.分析打包产物"></a>1.分析打包产物</h2><blockquote>
-<p>使用 rollup-plugin-visualizer 插件分析打包产物</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">npm i rollup-plugin-visualizer -D<br></code></pre></td></tr></table></figure>
-<blockquote>
-<p>在vite.config.ts中</p>
-</blockquote>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">import</span> &#123; visualizer &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;rollup-plugin-visualizer&#x27;</span><br><br><span class="hljs-attr">plugins</span>: [<br>    <span class="hljs-title function_">visualizer</span>()<br>]<br></code></pre></td></tr></table></figure>
-<blockquote>
-<p>然后开始打包,打包结束会在根目录生成一个stats.html文件,打开后可以<br>看到打包产物</p>
-</blockquote>
-<img src="/2024/03/07/%E8%AE%B0%E4%B8%80%E6%AC%A1vite%E6%89%93%E5%8C%85%E4%BC%98%E5%8C%96/img_1.png" srcset="/img/loading.gif" lazyload class="" width="1121">
-<blockquote>
-<p>然后我发现几个geojson的文件巨大,最大的50多m,看来罪魁祸首就是他了</p>
-</blockquote>
-<h2 id="2-解决超大json问题"><a href="#2-解决超大json问题" class="headerlink" title="2.解决超大json问题"></a>2.解决超大json问题</h2><blockquote>
-<p>对于这些文件,我一开始是直接import到代码中的,这可能导致<br>性能问题,之后我就通过axios请求的方式获取这些数据,并删除<br>import, 经过这样处理,打包速度快了很多,从之前的3-8分钟稳定<br>到40多秒</p>
-</blockquote>
-<h2 id="3-使用gzip进行压缩"><a href="#3-使用gzip进行压缩" class="headerlink" title="3.使用gzip进行压缩"></a>3.使用gzip进行压缩</h2><blockquote>
-<p>最后还通过gzip对产物进一步优化,提升加载速度</p>
-<p>安装并引入</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">npm install vite-plugin-compression -D<br></code></pre></td></tr></table></figure>
+                <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近客户反应有个图层加载比较慢,大概要等待5秒左右,这个图层就是每个企业的名字,加载的实体数量大概在1500左右. 于是着手优化 </p>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>一开始是使用entity中的label来加载的,label的文本是企业的名称,同时注意到控制台有800多个警告</p>
+<img src="/2024/03/11/%E4%BD%BF%E7%94%A8IndexDB%E4%BC%98%E5%8C%96%E5%A4%A7%E9%87%8FBillboard%E7%9A%84%E5%8A%A0%E8%BD%BD/img.png" srcset="/img/loading.gif" lazyload class="" width="1231">
 
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-attr">plugins</span>: [<span class="hljs-title function_">visualizer</span>(),<span class="hljs-title function_">viteCompression</span>()]<br></code></pre></td></tr></table></figure>
-
-<p>参数</p>
+<p>然后我就到cesium的sandcastle里验证一下,我的label的text属性是Math.random(), 发现一点也不卡, 经过搜索发现,<br>这个label的text属性,如果是相似的文本,会有优化,由于每个label在cesium中都会调用canvas的getImageData方法,<br>造成了性能损失</p>
+<p>同时我还尝试了LabelCollection看看是否有提升,结果是还不如entity,第一次加载同样需要等待,而且之后的加载也需<br>要等待一样的时间,entity方式加载,后续加载会比较快</p>
+<p>于是我打算自己通过canvas生成企业的名称,并使用billboard的方式来加载.同时将生成的图片存储下来,这样下次就不用再次生成了, 优化后的加载速度在1s左右</p>
+<p>大体逻辑如下</p>
 <ol>
-<li>filter：过滤器，对哪些类型的文件进行压缩，默认为&#x2F;.(js|mjs|json|css|html)$&#x2F;i</li>
-<li>verbose: true：是否在控制台输出压缩结果，默认为 true</li>
-<li>threshold ：启用压缩的文件大小限制，单位是字节，默认为 0</li>
-<li>disable : false：是否禁用压缩，默认为 false</li>
-<li>deleteOriginFile ：压缩后是否删除原文件，默认为 false</li>
-<li>algorithm ：采用的压缩算法，默认是 gzip</li>
-<li>ext ：生成的压缩包后缀</li>
+<li>去db中获取所有的企业图片键值对数据</li>
+<li>若没有找到,说明该企业未生成过,使用canvas生成图片,并存储到db中</li>
+<li>若找到,直接使用存储的图片</li>
 </ol>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-comment">// 数据库连接,使用游标获取localforage库中的keyvaluepairs表中的全部数据</span><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">getAllPic</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span>&#123;<br>    <span class="hljs-keyword">let</span> imgObj = &#123;&#125;<br>    <span class="hljs-keyword">try</span> &#123;<br>      <span class="hljs-keyword">const</span> request = <span class="hljs-variable language_">window</span>.<span class="hljs-property">indexedDB</span>.<span class="hljs-title function_">open</span>(<span class="hljs-string">&quot;localforage&quot;</span>);<br>      request.<span class="hljs-property">onsuccess</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) &#123;<br>        <span class="hljs-keyword">let</span> db = e.<span class="hljs-property">target</span>.<span class="hljs-property">result</span><br>        <span class="hljs-keyword">try</span> &#123;<br>          <span class="hljs-keyword">const</span> objectStore = db.<span class="hljs-title function_">transaction</span>(<span class="hljs-string">&quot;keyvaluepairs&quot;</span>).<span class="hljs-title function_">objectStore</span>(<span class="hljs-string">&quot;keyvaluepairs&quot;</span>);<br>          objectStore.<span class="hljs-title function_">openCursor</span>().<span class="hljs-property">onsuccess</span> = <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> &#123;<br>            <span class="hljs-keyword">const</span> cursor = event.<span class="hljs-property">target</span>.<span class="hljs-property">result</span>;<br>            <span class="hljs-keyword">if</span> (cursor) &#123;<br>              imgObj[cursor.<span class="hljs-property">key</span>] = cursor.<span class="hljs-property">value</span><br>              cursor.<span class="hljs-title function_">continue</span>();<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>              <span class="hljs-title function_">resolve</span>(imgObj)<br>              db.<span class="hljs-title function_">close</span>()<br>            &#125;<br>          &#125;;<br>        &#125;<span class="hljs-keyword">catch</span> (e) &#123;<br>          <span class="hljs-title function_">resolve</span>(imgObj)<br>          db.<span class="hljs-title function_">close</span>()<br>        &#125;<br>      &#125;<br>      request.<span class="hljs-property">onerror</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">event</span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;error&#x27;</span>)<br>      &#125;<br>    &#125;<span class="hljs-keyword">catch</span> (e)&#123;<br>      <span class="hljs-title function_">resolve</span>()<br>    &#125;<br>  &#125;)<br>&#125;<br></code></pre></td></tr></table></figure>
 
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">const</span> imgObj = <span class="hljs-keyword">await</span> <span class="hljs-title function_">getAllPic</span>()<br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; data.<span class="hljs-property">length</span>; i++) &#123;<br>    <span class="hljs-keyword">const</span> e = data[i];<br>    <span class="hljs-comment">// 求中心点</span><br>    <span class="hljs-keyword">if</span> (!e?.<span class="hljs-property">qymc</span>?.<span class="hljs-property">length</span>)&#123;<br>        <span class="hljs-keyword">continue</span><br>    &#125;<br>    <span class="hljs-comment">// if (i&lt; 10)&#123;</span><br>    <span class="hljs-comment">// 判断是否已经生成过图像</span><br>    <span class="hljs-keyword">let</span> imgsrc<br>    <span class="hljs-keyword">if</span> (imgObj[<span class="hljs-string">&#x27;qymcImg&#x27;</span>+ e.<span class="hljs-property">qymc</span>])&#123;<br>        imgsrc = imgObj[<span class="hljs-string">&#x27;qymcImg&#x27;</span>+ e.<span class="hljs-property">qymc</span>]<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-keyword">const</span> canvas = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;canvas&#x27;</span>);<br>        <span class="hljs-keyword">const</span> ctx = canvas.<span class="hljs-title function_">getContext</span>(<span class="hljs-string">&#x27;2d&#x27;</span>)<br>        <span class="hljs-keyword">const</span> width = e.<span class="hljs-property">qymc</span>.<span class="hljs-property">length</span> * <span class="hljs-number">21.5</span><br>        canvas.<span class="hljs-property">width</span> = width<br>        canvas.<span class="hljs-property">height</span> = <span class="hljs-number">40</span><br>        ctx.<span class="hljs-property">fillStyle</span> = color || colorDic[e.<span class="hljs-property">fxdjmc</span>] || <span class="hljs-string">&#x27;rgb(70,113,246)&#x27;</span><br>        ctx.<span class="hljs-title function_">fillRect</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, width, <span class="hljs-number">40</span>)<br>        ctx.<span class="hljs-property">font</span> = <span class="hljs-string">&#x27;800 20px 微软雅黑&#x27;</span><br>        ctx.<span class="hljs-property">fillStyle</span> = <span class="hljs-string">&#x27;#fff&#x27;</span><br>        ctx.<span class="hljs-title function_">fillText</span>(e.<span class="hljs-property">qymc</span>, <span class="hljs-number">10</span>, <span class="hljs-number">25</span>);<br>        imgsrc = canvas.<span class="hljs-title function_">toDataURL</span>(<span class="hljs-string">&quot;image/png&quot;</span>)<br>        <span class="hljs-comment">// 这里使用了一个库 localforage来简单的添加数据,存储base64</span><br>        localforage.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">&#x27;qymcImg&#x27;</span>+ e.<span class="hljs-property">qymc</span>, imgsrc)<br>    &#125;<br>    <span class="hljs-keyword">let</span> image = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Image</span>();<br>    image.<span class="hljs-property">src</span> = imgsrc<br>    <span class="hljs-variable language_">window</span>.<span class="hljs-property">viewer</span>.<span class="hljs-property">entities</span>.<span class="hljs-title function_">add</span>(&#123;<br>        name,<br>        <span class="hljs-attr">position</span>: <span class="hljs-title class_">Cesium</span>.<span class="hljs-property">Cartesian3</span>.<span class="hljs-title function_">fromDegrees</span>(+e.<span class="hljs-property">jd</span>,+e.<span class="hljs-property">wd</span>, <span class="hljs-number">25</span>),<br>        <span class="hljs-attr">billboard</span>:&#123;<br>            image,<br>            <span class="hljs-attr">disableDepthTestDistance</span>:<span class="hljs-title class_">Number</span>.<span class="hljs-property">POSITIVE_INFINITY</span>,<br>            <span class="hljs-attr">translucencyByDistance</span>:<span class="hljs-keyword">new</span> <span class="hljs-title class_">Cesium</span>.<span class="hljs-title class_">NearFarScalar</span>(<span class="hljs-number">3000</span>,<span class="hljs-number">1</span>,<span class="hljs-number">3001</span>,<span class="hljs-number">0</span>)<br>        &#125;,<br>        <span class="hljs-attr">qymc</span>: e.<span class="hljs-property">qymc</span>,<br>        <span class="hljs-attr">qyid</span>: e.<span class="hljs-property">id</span><br>    &#125;)<br><br>    <span class="hljs-variable language_">window</span>.<span class="hljs-property">viewer</span>.<span class="hljs-property">entities</span>.<span class="hljs-title function_">add</span>(&#123;<br>        name,<br>        <span class="hljs-attr">position</span>: <span class="hljs-title class_">Cesium</span>.<span class="hljs-property">Cartesian3</span>.<span class="hljs-title function_">fromDegrees</span>(+e.<span class="hljs-property">jd</span>,+e.<span class="hljs-property">wd</span>, <span class="hljs-number">25</span>),<br>        <span class="hljs-attr">point</span>:&#123;<br>            <span class="hljs-attr">pixelSize</span>:<span class="hljs-number">8</span>,<br>            <span class="hljs-attr">color</span>:<span class="hljs-title class_">Cesium</span>.<span class="hljs-property">Color</span>.<span class="hljs-title function_">fromCssColorString</span>(color || colorDic[e.<span class="hljs-property">fxdjmc</span>] || <span class="hljs-string">&#x27;rgb(70,113,246)&#x27;</span>),<br>            <span class="hljs-attr">disableDepthTestDistance</span>:<span class="hljs-title class_">Number</span>.<span class="hljs-property">POSITIVE_INFINITY</span>,<br>            <span class="hljs-attr">heightReference</span>: <span class="hljs-title class_">Cesium</span>.<span class="hljs-property">HeightReference</span>.<span class="hljs-property">CLAMP_TO_GROUND</span><br>        &#125;,<br>        <span class="hljs-attr">qymc</span>: e.<span class="hljs-property">qymc</span>,<br>        <span class="hljs-attr">qyid</span>: e.<span class="hljs-property">id</span><br>    &#125;)<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+
+<p>可以在f12中看到存储的数据</p>
+<img src="/2024/03/11/%E4%BD%BF%E7%94%A8IndexDB%E4%BC%98%E5%8C%96%E5%A4%A7%E9%87%8FBillboard%E7%9A%84%E5%8A%A0%E8%BD%BD/img_1.png" srcset="/img/loading.gif" lazyload class="" width="1231">
                 
               </div>
             
@@ -369,9 +352,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/vite/">#vite</a>
+        <a href="/tags/Cesium/">#Cesium</a>
       
-        <a href="/tags/%E6%89%93%E5%8C%85%E4%BC%98%E5%8C%96/">#打包优化</a>
+        <a href="/tags/IndexDB/">#IndexDB</a>
+      
+        <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">#性能优化</a>
       
     </div>
   
@@ -383,8 +368,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>记一次vite打包优化</div>
-      <div>http://samkallon.top/blog/2024/03/07/记一次vite打包优化/</div>
+      <div>使用IndexDB优化大量Billboard的加载</div>
+      <div>http://samkallon.top/blog/2024/03/11/使用IndexDB优化大量Billboard的加载/</div>
     </div>
     <div class="license-meta">
       
@@ -396,7 +381,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年3月7日</div>
+          <div>2024年3月11日</div>
         </div>
       
       
@@ -428,18 +413,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/03/11/%E4%BD%BF%E7%94%A8IndexDB%E4%BC%98%E5%8C%96%E5%A4%A7%E9%87%8FBillboard%E7%9A%84%E5%8A%A0%E8%BD%BD/" title="使用IndexDB优化大量Billboard的加载">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">使用IndexDB优化大量Billboard的加载</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/03/04/css%E6%B7%BB%E5%8A%A0%E5%8A%A8%E6%80%81%E8%A7%86%E9%A2%91%E8%83%8C%E6%99%AF/" title="css添加动态视频背景">
-                        <span class="hidden-mobile">css添加动态视频背景</span>
+                      <a href="/2024/03/07/%E8%AE%B0%E4%B8%80%E6%AC%A1vite%E6%89%93%E5%8C%85%E4%BC%98%E5%8C%96/" title="记一次vite打包优化">
+                        <span class="hidden-mobile">记一次vite打包优化</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
