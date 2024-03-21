@@ -4,6 +4,27 @@
   
   
   <entry>
+    <title>element背景模糊样式</title>
+    <link href="/2024/03/20/element%E8%83%8C%E6%99%AF%E6%A8%A1%E7%B3%8A%E6%A0%B7%E5%BC%8F/"/>
+    <url>/2024/03/20/element%E8%83%8C%E6%99%AF%E6%A8%A1%E7%B3%8A%E6%A0%B7%E5%BC%8F/</url>
+    
+    <content type="html"><![CDATA[<img src="/2024/03/20/element%E8%83%8C%E6%99%AF%E6%A8%A1%E7%B3%8A%E6%A0%B7%E5%BC%8F/img.png" class="" width="1212"><p>突然发现element plus的顶部的背景模糊效果，还挺好看的，看了一下F12 是这三个属性实现的</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs css">&#123;<br>    <span class="hljs-attribute">background-image</span>: <span class="hljs-built_in">radial-gradient</span>(transparent <span class="hljs-number">1px</span>, <span class="hljs-number">#ffffff</span> <span class="hljs-number">1px</span>);<br>    <span class="hljs-attribute">background-size</span>: <span class="hljs-number">4px</span> <span class="hljs-number">4px</span>;<br>    backdrop-<span class="hljs-attribute">filter</span>: <span class="hljs-built_in">saturate</span>(<span class="hljs-number">50%</span>) <span class="hljs-built_in">blur</span>(<span class="hljs-number">4px</span>);<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>css</tag>
+      
+      <tag>background</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>使用IndexDB优化大量Billboard的加载</title>
     <link href="/2024/03/11/%E4%BD%BF%E7%94%A8IndexDB%E4%BC%98%E5%8C%96%E5%A4%A7%E9%87%8FBillboard%E7%9A%84%E5%8A%A0%E8%BD%BD/"/>
     <url>/2024/03/11/%E4%BD%BF%E7%94%A8IndexDB%E4%BC%98%E5%8C%96%E5%A4%A7%E9%87%8FBillboard%E7%9A%84%E5%8A%A0%E8%BD%BD/</url>
