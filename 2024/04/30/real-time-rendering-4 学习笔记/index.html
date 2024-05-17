@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://samkallon.top/img/rtr4.png">
 <meta property="article:published_time" content="2024-04-30T08:03:16.000Z">
-<meta property="article:modified_time" content="2024-05-15T09:48:58.333Z">
+<meta property="article:modified_time" content="2024-05-15T09:54:32.069Z">
 <meta property="article:author" content="samkallon">
 <meta property="article:tag" content="学习笔记">
 <meta property="article:tag" content="图形学">
@@ -279,7 +279,7 @@
         
         
         
-          87 分钟
+          88 分钟
         
       </span>
     
@@ -484,6 +484,10 @@
 <h3 id="锯齿-走样-和抗锯齿-反走样"><a href="#锯齿-走样-和抗锯齿-反走样" class="headerlink" title="锯齿(走样)和抗锯齿(反走样)"></a>锯齿(走样)和抗锯齿(反走样)</h3><p>⼀旦⽹格单元的中⼼被三⻆形所覆盖，这个单元的像素颜⾊就会⽴即从⽩⾊变为⿊⾊。三⻆形会以像素的形式显示出来，⼀个⽹格像素要么被覆盖，要么不被覆盖，绘制出来的线也有类似的问题. 由于这个原因，因此三⻆形和线段的边界会呈现出锯⻮状</p>
 <h4 id="采样和滤波理论"><a href="#采样和滤波理论" class="headerlink" title="采样和滤波理论"></a>采样和滤波理论</h4><p>渲染图像的过程本质上是⼀个采样任务。这是因为图像的⽣成实际上就是对三维场景进⾏采样的过程，从⽽获得图像（离散像素数组）中每个像素的颜⾊值<br>当⼀个信号的采样率过低时，就会出现⾛样现象（在光栅化游戏中，屏幕的分辨率⼤体决定了采样率，因此屏幕分辨率越⾼，⾛样和锯⻮现象就越少）。</p>
 <img src="/2024/04/30/real-time-rendering-4%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%87%87%E6%A0%B7%E9%A2%91%E7%8E%87%E5%AF%B9%E9%87%87%E6%A0%B7%E7%BB%93%E6%9E%9C%E7%9A%84%E5%BD%B1%E5%93%8D.png" srcset="/img/loading.gif" lazyload class="" width="1212">
+
+<h5 id="重建"><a href="#重建" class="headerlink" title="重建"></a>重建</h5><p>给定⼀个有限频宽的采样信号后，现在我们将讨论如何从采样信号中重建原始信号。为了实现这个⽬的，我们必须使⽤⼀个滤波器,这⾥需要注意的是，滤波函数的积分⾯积应当始终为 1，否则重建后的信号就会被放⼤或者缩⼩。</p>
+<img src="/2024/04/30/real-time-rendering-4%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%BB%A4%E6%B3%A2%E5%99%A8.png" srcset="/img/loading.gif" lazyload class="" width="1212">
+
 
 
                 
