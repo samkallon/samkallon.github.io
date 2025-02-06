@@ -4,6 +4,46 @@
   
   
   <entry>
+    <title>使用自定义DC绘制一个钻石</title>
+    <link href="/2025/02/06/%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89DC%E7%BB%98%E5%88%B6%E4%B8%80%E4%B8%AA%E9%92%BB%E7%9F%B3/"/>
+    <url>/2025/02/06/%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89DC%E7%BB%98%E5%88%B6%E4%B8%80%E4%B8%AA%E9%92%BB%E7%9F%B3/</url>
+    
+    <content type="html"><![CDATA[<div id="dplayer23" class="dplayer hexo-tag-dplayer-mark" style="margin-bottom: 20px;"></div><script>(function(){var player = new DPlayer({"container":document.getElementById("dplayer23"),"video":{"url":"/2025/02/06/使用自定义DC绘制一个钻石/dc.mp4"}});window.dplayers||(window.dplayers=[]);window.dplayers.push(player);})()</script><p>DC（Draw Command），是Cesium的一个内部API，并没有在文档中暴露，参考了岭南大佬的文章后，绘制了一个可以旋转跳跃的钻石，主要思路如下</p><ol><li>确定钻石最底部坐标为[0, 0, 0]，并通过极坐标计算 中间层及最顶层的两个六边形的坐标</li><li>依据顶点顺序，生成顶点数据，以及每个顶点的颜色</li><li>计算顶点索引，生成Geometry，通过GeometryPipeline的computeNormal方法计算法线</li><li>将顶点位置，顶点颜色，及顶点法线分别构造为vbo，再关联好属性位置，构建vao</li><li>顶点着色器中控制顶点的旋转和上下，片元着色器混合颜色，计算光照</li><li>构建DC后 配合自定义Primitive添加到地图</li></ol>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>cesium</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>解决cesium添加视频材质时遇到渲染在canvas上的视频画面不动的问题</title>
+    <link href="/2024/09/13/%E8%A7%A3%E5%86%B3cesium%E6%B7%BB%E5%8A%A0%E8%A7%86%E9%A2%91%E6%9D%90%E8%B4%A8%E6%97%B6%E9%81%87%E5%88%B0%E6%B8%B2%E6%9F%93%E5%9C%A8canvas%E4%B8%8A%E7%9A%84%E8%A7%86%E9%A2%91%E7%94%BB%E9%9D%A2%E4%B8%8D%E5%8A%A8%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <url>/2024/09/13/%E8%A7%A3%E5%86%B3cesium%E6%B7%BB%E5%8A%A0%E8%A7%86%E9%A2%91%E6%9D%90%E8%B4%A8%E6%97%B6%E9%81%87%E5%88%B0%E6%B8%B2%E6%9F%93%E5%9C%A8canvas%E4%B8%8A%E7%9A%84%E8%A7%86%E9%A2%91%E7%94%BB%E9%9D%A2%E4%B8%8D%E5%8A%A8%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<p>最近在做一个视频融合的功能, 主要的形式是构建视锥体,然后将视频内容作为材质贴到视锥体的far面, 我是直接使用大华的<br>wsplayer播放器获取视频元素,不过大华的播放器有个问题,如果视频播放出现Error101, 就会将视频渲染到<br>canvas元素上面,而如果直接将canvas元素作为材质贴到面上,材质画面就只有第一帧,不会更新. </p><p>解决思路就是新建一个镜像canvas,然后视频材质使用callbackproperty, 每次切换canvas并复制原canvas的<br>内容到镜像canvas,最终实现效果还是不错的.</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>cesium</tag>
+      
+      <tag>canvas</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Real-Time-Rendering-4 学习笔记</title>
     <link href="/2024/04/30/real-time-rendering-4%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
     <url>/2024/04/30/real-time-rendering-4%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
