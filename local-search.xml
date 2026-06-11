@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>git交互式变基的使用</title>
+    <link href="/2025/06/10/git%E8%BF%BD%E5%8A%A0%E6%8F%90%E4%BA%A4/"/>
+    <url>/2025/06/10/git%E8%BF%BD%E5%8A%A0%E6%8F%90%E4%BA%A4/</url>
+    
+    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近遇到一个问题, 改好的代码提交上去后, 被jenkins提示有代码规范的问题, 修改后需要提交代码, 并且要和之前push的在一块, 才能继续之前的review流程</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">git commit --amend --no-edit<br></code></pre></td></tr></table></figure><p>amend命令指的是修正最近一次提交, –no-edit表示不修改提交信息, 也就是将之前的提交信息保留. 但是问题来了, 我出问题的不是最近一次提交,而是倒数第二次.<br>问了ai 说是要使用交互式变基 </p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">git rebase -i HEAD~2<br></code></pre></td></tr></table></figure><p>然后出来一个文本编辑器,将需要修改的分支前面的pick 改为edit, 保存退出, 然后修改代码,git add<br>然后继续变基</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">git rebase --continue<br></code></pre></td></tr></table></figure><p>若没有冲突,则自动完成变基<br>变基完成后, git push即可</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>git</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>使用自定义DC绘制一个钻石</title>
     <link href="/2025/02/06/%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89DC%E7%BB%98%E5%88%B6%E4%B8%80%E4%B8%AA%E9%92%BB%E7%9F%B3/"/>
     <url>/2025/02/06/%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89DC%E7%BB%98%E5%88%B6%E4%B8%80%E4%B8%AA%E9%92%BB%E7%9F%B3/</url>
